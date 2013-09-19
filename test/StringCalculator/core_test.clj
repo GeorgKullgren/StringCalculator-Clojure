@@ -9,7 +9,10 @@
  (fact "Test add"
        (add ?string) => ?result)
  ?string ?result
-  "2"     2
+  "22"    22
   "4"     4
+  "1 2"   3
+  "23 7"  30
+ "3 4 7"  14
 )
 
