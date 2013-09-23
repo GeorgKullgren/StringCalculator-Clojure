@@ -16,3 +16,13 @@
  "3 4 7"  14
 )
 
+(tabular
+ (fact "Test add with optional delimeter"
+       (add ?string) => ?result)
+
+ ?string       ?result
+ "//f\n3f2"    5
+ "//gh\n3gh2"  5
+ "//f g\n3f g2" 5
+)
+
