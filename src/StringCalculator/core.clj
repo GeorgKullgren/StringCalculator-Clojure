@@ -2,20 +2,29 @@
   (:use clojure.string))
 
 
+(defn parseArguments
+  [argString]
+  (re-find #"//(.*)\n(.*)" argString))
+  
+(defn getDelimiter
+  [arguments]
+  (java.util.regex.Pattern/compile (cond
+                                    (= arguments nil) "\\s+"
+                                    :else (get arguments 1))))
 
-;;  (def stringParts (re-find #"ww(.)\\s(.*)" argString))
+(defn getStringOfNumbers
+  [argString args]
+  (cond
+   (= args nil) argString
+   :else (get args 2)))
 
 (defn add
-  ([] 
-     0)
+  ([] 0)
   ([argString]
-     (def stringParts (re-find #"//(.*)\n(.*)" argString))
-     (def delimeter (java.util.regex.Pattern/compile (cond
-                                                      (= stringParts nil) "\\s+"
-                                                      :else (get stringParts 1))))
-     (def numberString (cond
-                        (= stringParts nil) argString
-                        :else (get stringParts 2)))
-     (def argsVector (split numberString delimeter))
+     (def args (parseArguments argString))
+     (def delimeter (getDelimiter args))
+     (def stringOfNumbers (getStringOfNumbers argString args))
+     (def argsVector (split stringOfNumbers delimeter))
      (reduce + (map read-string argsVector))))
 
+     
