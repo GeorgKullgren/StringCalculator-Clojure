@@ -21,10 +21,8 @@
 (defn add
   ([] 0)
   ([argString]
-     (def args (parseArguments argString))
-     (def delimeter (getDelimiter args))
-     (def stringOfNumbers (getStringOfNumbers argString args))
-     (def argsVector (split stringOfNumbers delimeter))
-     (reduce + (map read-string argsVector))))
+     (def argumentVector (parseArguments argString))
+     (def numberVector (split (getStringOfNumbers argString argumentVector) (getDelimiter argumentVector)))
+     (reduce + (map read-string numberVector))))
 
      
