@@ -2,6 +2,24 @@
   (:require [StringCalculator.core :refer :all])
   (:use [midje.sweet]))
 
+(fact "Test parsing argument string with optional delimeter"
+      (parseArguments "//ff\n55ff11") => ["//ff\n55ff11" "ff" "55ff11"])
+
+(fact "Test parsing default argument string"
+      (parseArguments "33 22") => nil)
+
+(fact "Test get delimiter from parse result"
+      (getDelimiter ["//ff\n55ff11" "ff" "55ff11"]) => #"ff")
+
+(fact "Test get delimiter from empty parse result returns default \"\\s+\""
+      (getDelimiter nil) => #"\s+")
+
+(fact "getStringOfNumbers returns default if arglist is empty"
+      (getStringOfNumbers "string" nil) => "string")
+
+(fact "getStringOfNumbers returns second element in vector if it exists"
+      (getStringOfNumbers "string" ["first" "second" "third"]) => "third")
+
 (fact "Test add with no arguments returns 0"
       (add) => 0)
 
