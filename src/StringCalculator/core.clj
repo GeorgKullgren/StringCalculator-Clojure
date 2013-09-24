@@ -26,3 +26,10 @@
      (reduce + (map read-string numberVector))))
 
      
+(defn subtract
+  ([] 0)
+  ([argString]
+     (def argumentVector (parseArguments argString))
+     (def numberVector (split (getStringOfNumbers argString argumentVector) (getDelimiter argumentVector)))
+     (reduce - (map read-string numberVector))))
+

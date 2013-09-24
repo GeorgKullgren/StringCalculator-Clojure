@@ -26,4 +26,14 @@
  "//f g\n3f g2" 5
 )
 
+(tabular
+ (fact "Test subtraction"
+       (subtract ?string) => ?result)
+      
+ ?string       ?result
+ "10 4"        6
+ "15 5 3"      7
+ "//gh\n3gh2"  1
+) 
+
 
