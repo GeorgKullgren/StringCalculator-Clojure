@@ -23,6 +23,7 @@
 (fact "Test add with no arguments returns 0"
       (add) => 0)
 
+
 (tabular
  (fact "Test add"
        (add ?string) => ?result)
@@ -54,4 +55,22 @@
  "//gh\n3gh2"  1
 ) 
 
+(tabular
+ (fact "Test division"
+       (divide ?string) => ?result)
+      
+ ?string       ?result
+ "10 5"        2
+ "15 5 3"      1
+ "//gh\n6gh2"  3
+) 
 
+(tabular
+ (fact "Test multiplication"
+       (multiply ?string) => ?result)
+      
+ ?string       ?result
+ "10 5"        50
+ "2 5 3"       30
+ "//gh\n6gh2"  12
+) 
