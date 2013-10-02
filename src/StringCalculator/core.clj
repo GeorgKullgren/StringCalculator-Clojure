@@ -52,7 +52,7 @@
 
 (defn tokenize-string
   [string]
-  (def normalizedString (replace (replace string "(" "( ") ")" " )"))   
+  (def normalizedString (replace (replace string "(" "( ") ")" " "))   
   (split normalizedString (getDelimiter nil)))
 
 (defn getOperation
@@ -93,9 +93,7 @@
                     argument2 op]
     (var-set argument1 (getArgument (:rest @operation)))
     (var-set argument2 (getArgument (:rest @argument1)))
-    (VectorArgument. (do-math (:arg @operation) (:arg @argument1) (:arg @argument2)) (:rest @argument2))
-    )
-)
+    (VectorArgument. (do-math (:arg @operation) (:arg @argument1) (:arg @argument2)) (:rest @argument2))))
 
 (defn math
   [stringArg]

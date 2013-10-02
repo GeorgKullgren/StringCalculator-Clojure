@@ -81,7 +81,7 @@
  
  ?argument       ?result
  "add 5 7"       ["add" "5" "7"]
- "(add 5 7)"     ["(" "add" "5" "7" ")"]
+ "(add 5 7)"     ["(" "add" "5" "7"]
 )
 
 (tabular
@@ -94,6 +94,8 @@
  "(multiply 4 3)"  12
  "(divide 15 3)"   5
  "(add 4 (add 1 5))" 10
+ "add (subtract 10 9) (add 3 3)"  7
+ "(add (subtract 10 9) (add 3 3))"  7
 )
 
 
