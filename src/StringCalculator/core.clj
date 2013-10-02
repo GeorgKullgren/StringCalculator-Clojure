@@ -87,14 +87,18 @@
 
 (defn recursiveMath
   [vector]
-  (def operation (getOperation vector))
-  (def argument1 (getArgument (:rest operation)))
-  (def argument2 (getArgument (:rest argument1)))
-  (VectorArgument. (do-math (:arg operation) (:arg argument1) (:arg argument2)) (:rest argument2))
+  (def op (getOperation vector))
+  (with-local-vars [operation op, 
+                    argument1 op, 
+                    argument2 op]
+    (var-set argument1 (getArgument (:rest @operation)))
+    (var-set argument2 (getArgument (:rest @argument1)))
+    (VectorArgument. (do-math (:arg @operation) (:arg @argument1) (:arg @argument2)) (:rest @argument2))
+    )
 )
-
 
 (defn math
   [stringArg]
   (def vector (tokenize-string stringArg))
   (:arg (recursiveMath vector)))
+
