@@ -46,36 +46,55 @@
   ([argString]
      (math-operation argString (fn [a b] (* a b)))))
 
-(defn parse-math
-  [stringArg]
-  (def matched-group (re-find (re-pattern "\\(([a-z0-9\\s]*)\\)") stringArg))
-  (cond 
-   (= matched-group nil) nil
-   :else (get matched-group 1)))
+;--------------------
 
-(defn do-operation
-  [expression]
-  (def expression-parts (re-find #"(\w+)\s+(\d+\s+\d+)" expression))
-  (def operation (get expression-parts 1))
-  (def arguments (get expression-parts 2))
-  (cond
-   (= operation "add") (add arguments)
-   (= operation "subtract") (subtract arguments)
-   (= operation "divide") (divide arguments)
-   (= operation "multiply") (multiply arguments)))
+(defrecord VectorArgument [arg rest])
+
+(defn tokenize-string
+  [string]
+  (def normalizedString (replace (replace string "(" "( ") ")" " )"))   
+  (split normalizedString (getDelimiter nil)))
+
+(defn getOperation
+  [vector]
+  (def op (if (= (get vector 0) "(")
+            (get vector 1)
+            (get vector 0)))
+  (def rest (if (= (get vector 0) "(")
+              (subvec vector 2)
+              (subvec vector 1)))
+
+  (VectorArgument. op rest))
+
+(declare recursiveMath)
+
+(defn getArgument
+  [vector]
+  (def arg (get vector 0))
+  (if (= arg "(")
+    (recursiveMath (subvec vector 1))
+    (VectorArgument. (read-string arg) (subvec vector 1))))
+
+(defn do-math
+  [operation argument1 argument2]
+  (def op (cond
+           (= operation "add") (fn [a b] (+ a b))
+           (= operation "subtract") (fn [a b] (- a b))
+           (= operation "divide") (fn [a b] (/ a b))
+           (= operation "multiply") (fn [a b] (* a b))
+           :else (assert "Illegal operation")))
+  (op argument1 argument2))
+
+(defn recursiveMath
+  [vector]
+  (def operation (getOperation vector))
+  (def argument1 (getArgument (:rest operation)))
+  (def argument2 (getArgument (:rest argument1)))
+  (VectorArgument. (do-math (:arg operation) (:arg argument1) (:arg argument2)) (:rest argument2))
+)
 
 
 (defn math
   [stringArg]
-  (def expression (parse-math stringArg))
-  (cond
-   (= expression nil) 0
-   :else (do-operation expression)))
-
-
-
-;if ( create node
-;if ) calculate result of node
-;iterate
-;
-;(add 3 (add(4 4))
+  (def vector (tokenize-string stringArg))
+  (:arg (recursiveMath vector)))

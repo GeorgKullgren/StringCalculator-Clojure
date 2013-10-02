@@ -75,23 +75,14 @@
  "//gh\n6gh2"  12
 ) 
 
-(fact "Parse one group and return inner expression"
-  (parse-math "(add 4 3)") => "add 4 3")
-
-(fact "Parse ungrouped expression and return nil"
-  (parse-math "add 4 3") => nil)
-
-(fact "Parse expression containing inner group resturns inner group"
-  (parse-math "add 4 (add 3 2)") => "add 3 2")
-
-(fact "Parse grouped expression containing inner group resturns inner expression"
-  (parse-math "(add (add 3 2) 4)") => "add 3 2")
-
-(fact "Parse two grouped expression returns first expression"
-  (parse-math "add (add 3 4) (add 5 6)") => "add 3 4")
-
-(fact "Do operation add returns sum"
-  (do-operation "add 3 4") => 7)
+(tabular
+ (fact "Tokenize string"
+   (tokenize-string ?argument) => ?result)
+ 
+ ?argument       ?result
+ "add 5 7"       ["add" "5" "7"]
+ "(add 5 7)"     ["(" "add" "5" "7" ")"]
+)
 
 (tabular
  (fact "Parse grouped expression"
@@ -101,5 +92,8 @@
  "(add 4 3)"       7
  "(subtract 4 3)"  1
  "(multiply 4 3)"  12
- "(divide 15 3)"   5)
+ "(divide 15 3)"   5
+ "(add 4 (add 1 5))" 10
+)
+
 
